@@ -6,13 +6,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ApiDataRetriever {
 
     // Define the API endpoint
-    private static final String API_URL = "https://newsapi.org/v2/everything?q=%s&from=2024-10-26&sortBy=popularity&apiKey=a65aa431ff2442bb8b8d16709eb70962";
+    private static final String API_URL = "https://newsapi.org/v2/everything?q=%s&from=2024-10-26&sortBy=popularity&apiKey=%s";
 
 
     public String returnNews(String topic){
@@ -20,8 +21,8 @@ public class ApiDataRetriever {
 
 
         try {
-
-            String finalUrl=String.format(API_URL,topic);
+            Dotenv dotenv = Dotenv.load();
+            String finalUrl=String.format(API_URL,topic,dotenv.get("APITOKEN"));
             // Fetch data from the API
             String jsonData = fetchDataFromApi(finalUrl);
 
