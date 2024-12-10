@@ -17,7 +17,7 @@ public class KafkaTopicManager {
     public static void main(String[] args) {
         String bootstrapServers = "localhost:9092"; // Adresa Kafka
         String kafkaTopic = "news-topic"; // Topicul unde vom trimite datele
-        String apiTopic = "technology"; // Subiect pentru API-ul de știri
+        String apiTopic = "pizza"; // Subiect pentru API-ul de știri
 
         // Configurare AdminClient
         Properties adminProps = new Properties();
@@ -33,8 +33,8 @@ public class KafkaTopicManager {
 
         try {
             // Creează topicul dacă nu există
-            if (!topicExists(adminClient, kafkaTopic)) {
-                System.out.println("Topic " + kafkaTopic + " nu există. Se creează...");
+            if (!topicExists(adminClient, apiTopic)) {
+                System.out.println("Topic " + apiTopic + " nu există. Se creează...");
                 createTopic(adminClient, apiTopic);
             }
 
@@ -48,7 +48,7 @@ public class KafkaTopicManager {
             System.out.println("Trimit datele din API către Kafka...");
 
             for(String item: newsData) {
-                producer.send(new ProducerRecord<>(kafkaTopic, null, item), (metadata, exception) -> {
+                producer.send(new ProducerRecord<>(apiTopic, null, item), (metadata, exception) -> {
                     if (exception != null) {
                         System.err.println("Eroare la trimiterea mesajului: " + exception.getMessage());
                     } else {
